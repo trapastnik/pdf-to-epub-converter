@@ -1,0 +1,9 @@
+
+# requirements.txt
+# This file lists the project dependencies.
+gradio
+# Add other dependencies here as needed, e.g.,:
+# PyMuPDF
+# ebooklib
+# pydantic
+# ...
