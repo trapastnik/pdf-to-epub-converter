@@ -1,0 +1,6 @@
+{
+    "name": "PDF to EPUB Converter",
+    "short_name": "PDF2EPUB",
+    "start_url": "/",
+    "display": "standalone"
+  }
