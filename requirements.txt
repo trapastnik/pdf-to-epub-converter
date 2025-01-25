@@ -11,6 +11,7 @@ gradio==4.14.0
 pytesseract==0.3.10
 Pillow==10.2.0
 
+pyphen==0.14.0
 # Optional for data validation (future)
 # pydantic
 # marshmallow

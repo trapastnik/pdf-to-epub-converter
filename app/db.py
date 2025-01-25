@@ -1,4 +1,3 @@
-
 # app/db.py
 # This file handles database interactions (currently file-based, later SQLite).
 import json

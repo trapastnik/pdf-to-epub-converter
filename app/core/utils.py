@@ -2,31 +2,47 @@
 import os
 import re
 import shutil
+import pyphen
+from functools import lru_cache
 from config import TEMP_DIR
+from typing import Optional
 
-def sanitize_filename(filename):
+# Hyphenation setup
+@lru_cache(maxsize=None)
+def get_hyphenator() -> Optional[pyphen.Pyphen]:
+    """Cached hyphenator factory with error handling"""
+    try:
+        return pyphen.Pyphen(lang='ru')
+    except Exception as e:
+        print(f"Hyphenator initialization failed: {e}")
+        return None
+
+def apply_russian_hyphenation(text: str) -> str:
     """
-    Sanitizes a filename by removing invalid characters and ensuring it's suitable for use in a file system.
+    Applies soft hyphens to Russian text for proper EPUB hyphenation.
+    Preserves original word boundaries for e-reader reflow.
     """
-    # Remove invalid characters
-    filename = re.sub(r'[\\/*?:"<>|]', "", filename)
+    hyphenator = get_hyphenator()
+    if not hyphenator:
+        return text
+    
+    try:
+        return hyphenator.inserted(text, hyphen='\u00AD')  # SOFT HYPHEN (U+00AD)
+    except Exception as e:
+        print(f"Hyphenation error: {e}")
+        return text
 
-    # Truncate to a reasonable length (e.g., 255 characters)
-    filename = filename[:255]
+# Original file management functions
+def sanitize_filename(filename: str) -> str:
+    """Sanitizes filenames for safe filesystem use"""
+    clean = re.sub(r'[\\/*?:"<>|]', "", filename)[:255]
+    return clean.strip() if clean.strip() else "untitled"
 
-    # Ensure the filename is not empty or just whitespace
-    if not filename or filename.isspace():
-        filename = "untitled"
-
-    return filename
-
-def cleanup_temp_files(filepath):
-    """
-    Deletes the temporary directory and its contents.
-    """
+def cleanup_temp_files(filepath: str) -> None:
+    """Safely removes temporary directories"""
     try:
         temp_dir = os.path.join(filepath, TEMP_DIR)
         if os.path.exists(temp_dir):
             shutil.rmtree(temp_dir)
     except Exception as e:
-        print(f"Error cleaning up temporary files: {e}")
+        print(f"Temp cleanup error: {e}")

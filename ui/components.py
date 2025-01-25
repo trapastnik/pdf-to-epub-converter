@@ -1,4 +1,3 @@
-
 # ui/components.py
 # This file contains Gradio UI components.
 import gradio as gr

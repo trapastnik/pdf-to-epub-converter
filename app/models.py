@@ -16,7 +16,7 @@ class Chapter:
     """
     Represents a chapter in a document.
     """
-    def __init__(self, title: str, content: List[str], headings: List["Heading"], page_number: int):
+    def __init__(self, title: str, content: List[str], headings: List["Heading"], page_number: int = 1):  # Add default value
         self.title = title
         self.content = content
         self.headings = headings
