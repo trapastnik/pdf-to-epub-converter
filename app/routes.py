@@ -1,3 +1,5 @@
+# app/routes.py
+
 import os
 import tempfile
 import fitz
@@ -6,7 +8,7 @@ from app.core.pdf_parser import parse_pdf
 from app.core.epub_generator import create_epub
 from app.core.structure_analyzer import analyze_structure
 from app.core.utils import cleanup_temp_files
-from config import UPLOAD_FOLDER, OUTPUT_FOLDER  # Make sure OUTPUT_FOLDER is defined
+from config import UPLOAD_FOLDER, OUTPUT_FOLDER
 
 def convert_pdf_to_epub(pdf_file):
     """
@@ -34,7 +36,7 @@ def convert_pdf_to_epub(pdf_file):
         print("Open the PDF file")
 
         # Pass the doc object to parse_pdf
-        parsed_pdf = parse_pdf(doc)
+        parsed_pdf = parse_pdf(doc)  # Pass the fitz.Document object directly
         print("# Pass the doc object to parse_pdf")
 
         # Analyze the structure
